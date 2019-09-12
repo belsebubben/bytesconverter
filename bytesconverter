@@ -18,9 +18,9 @@ def convert(num, metric='b'):
 def main():
     '''main'''
     try:
-        conv = sys.argv[1]
+        conv = ''.join(sys.argv[1:])
     except IndexError:
-        print('Provide number of bytes with suffix like "123456kb" or 832423Mb')
+        print('Provide number of bytes with suffix like "123456kb" or 832423Mb; Use the short form i.e kb and not "kilo"')
 
     metric = 'b'
     for suffix in ('k', 'm', 'g', 't', 'p', 'e', 'z'):
