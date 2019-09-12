@@ -1,0 +1,35 @@
+#!/usr/bin/env python3
+'''The missing link bytes metric cli converter'''
+
+import sys
+
+METRICNAMES = {'b': 'bytes', 'k': 'kiloBytes', 'm': 'megaBytes', 'g': 'gigaBytes',\
+    't': 'teraBytes', 'p': 'petaBytes', 'e': 'exaBytes', 'z': 'zettaBytes'}
+
+METRICCONVS = {'b': 7, 'k': 6, 'm': 5, 'g': 4, 't': 3, 'p': 2, 'e': 1, 'z': 0}
+
+def convert(num, metric='b'):
+    '''convert and print all metrics for number'''
+    for short, metricname in METRICNAMES.items():
+        print('\033[1m{:<25} \033[1;31m{}\033[0m'.format(\
+                num * (1024 ** (METRICCONVS[short] - METRICCONVS[metric])),
+                metricname))
+
+def main():
+    '''main'''
+    try:
+        conv = sys.argv[1]
+    except IndexError:
+        print('Provide number of bytes with suffix like "123456kb" or 832423Mb')
+
+    metric = 'b'
+    for suffix in ('k', 'm', 'g', 't', 'p', 'e', 'z'):
+        if suffix in str(conv).lower():
+            metric = suffix
+    conv = ''.join(c for c in conv if  c in '0123456789')
+    conv = int(conv)
+
+    convert(conv, metric=metric)
+
+if __name__ == '__main__':
+    main()
